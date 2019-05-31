@@ -1,5 +1,18 @@
 <?php
-
+// This file is part of Moodle - http://moodle.org/
+//
+// Moodle is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 require_once("../../config.php");
 require_once("locallib.php");
 require_once("institutionform.class.php");
@@ -9,7 +22,8 @@ $cid = optional_param('cid', '', PARAM_INT);
 $delete = optional_param('delete', '', PARAM_INT);
 
 if ($cid != '') {
-    $url = new moodle_url('/mod/booking/institutionadd.php', array('courseid' => $courseid, 'cid' => $cid));
+    $url = new moodle_url('/mod/booking/institutionadd.php',
+            array('courseid' => $courseid, 'cid' => $cid));
 } else {
     $url = new moodle_url('/mod/booking/institutionadd.php', array('courseid' => $courseid));
 }
@@ -34,20 +48,20 @@ $redirecturl = new moodle_url('institutions.php', array('courseid' => $courseid)
 
 if ($delete == 1) {
     $DB->delete_records("booking_institutions", array("id" => $cid));
-    $delmessage = get_string('sucesfulldeletedinstitution', 'booking');
+    $delmessage = get_string('successfulldeletedinstitution', 'booking');
 
     redirect($redirecturl, $delmessage, 5);
 }
 
 $mform = new mod_booking_institution_form(null, array('courseid' => $courseid, 'cidd' => $cid));
 
-$default_values = new stdClass();
+$defaultvalues = new stdClass();
 if ($cid != '') {
-    $default_values = $DB->get_record('booking_institutions', array('id' => $cid));
+    $defaultvalues = $DB->get_record('booking_institutions', array('id' => $cid));
 }
 
-$default_values->courseid = $courseid;
-$default_values->course = $courseid;
+$defaultvalues->courseid = $courseid;
+$defaultvalues->course = $courseid;
 
 $PAGE->set_title(get_string('addnewinstitution', 'booking'));
 
@@ -70,11 +84,7 @@ if ($mform->is_cancelled()) {
 
 $PAGE->set_heading($course->fullname);
 echo $OUTPUT->header();
-// this branch is executed if the form is submitted but the data doesn't validate and the form should be redisplayed
-// or on the first display of the form.
-
-$mform->set_data($default_values);
+$mform->set_data($defaultvalues);
 $mform->display();
 
 echo $OUTPUT->footer();
-?>

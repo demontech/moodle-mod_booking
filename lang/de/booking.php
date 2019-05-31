@@ -1,13 +1,36 @@
-<?PHP
-//renderer.php
+<?php
+// This file is part of Moodle - http://moodle.org/
+//
+// Moodle is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+
+// general strings
+$string['messageprovider:bookingconfirmation'] = "Buchungsbestätigungen";
+
+// renderer.php
 $string['showonlymyinstitutions'] = "Meine Institution";
 
-//view.php
+// view.php
 $string['addmorebookings'] = 'Buchungen hinzufügen';
 $string['allowupdate'] = 'Buchungen dürfen gelöscht/aktualisiert werden';
 $string['answered'] = 'Beantwortet';
-$string['attachical'] = 'ICAL Kalendereintrag hinzufügen';
-$string['attachicaldesc'] = 'E-Mail Benachrichtigungen im ical Kalenderformat hinzufügen, wenn diese Option aktiviert wird';
+$string['attachical'] = 'Einen Ical Kalendereintrag für die gesamte Dauer einer Buchung als Dateianhang in der E-Mail Benachrichtigung einfügen';
+$string['attachicaldesc'] = 'E-Mail Benachrichtigungen im ical Kalenderformat hinzufügen, wenn diese Option aktiviert wird. Es wir entweder der in den Buchungsoptionen festgelegte
+Termin eingefügt oder ein Event mit dem Anfangsdatum des ersten Termins einer Terminserie und dem Enddatum des letzten Termins der Terminserie.';
+$string['attachicalsess'] = 'Von einer Terminserie alle Einzeltermine im ical Anhang hinzufügen';
+$string['attachicalsessdesc'] = 'Im Ical-Anhang der E-Mail Benachrichtigungen werden alle einzelnen Termine einer Terminserie angeführt.';
+$string['icalcancel'] = 'Einen Ical Anhang in die Benachrichtigungsmail einfügen, wenn eine Buchung storniert wurde.';
+$string['icalcanceldesc'] = 'Wenn ein User eine Buchung storniert oder von der Buchungsliste entfernt wurde, ein Ical-Event mit dem stornierten Event anhängen. (Das fügt den Termin als abgesagten Termin in den Kalender ein bzw. berichtigt den Termin)';
 $string['booking'] = 'Buchung';
 $string['booking:addinstance'] = 'Neue Buchung anlegen';
 $string['booking:choose'] = 'Buchen';
@@ -46,7 +69,7 @@ $string['limit'] = 'Maximale Anzahl';
 $string['modulename'] = 'Buchung';
 $string['modulenameplural'] = 'Buchungen';
 $string['mustchooseone'] = 'Sie müssen eine Option auswählen';
-$string['myoptions'] = 'Meine Buchungsoptionen ({$a})';
+$string['myoptions'] = 'Von mir verwaltete Buchungsoptionen ({$a})';
 $string['noguestchoose'] = 'Gäste dürfen keine Buchungen vornehmen';
 $string['noresultsviewable'] = 'Die Ergebnisse sind momentan nicht einsehbar';
 $string['nosubscribers'] = 'Keine Trainer/innen zugewiesen!';
@@ -70,8 +93,11 @@ $string['viewallresponses'] = '{$a} Antworten verwalten';
 $string['yourselection'] = 'Ihre Auswahl';
 
 // subscribeusers.php
+$string['cannotremovesubscriber'] = 'Um die Buchung zu stornieren, muss zuvor der Aktivitätsabschluss entfernt werden. Die Buchung wurde nicht storniert';
 $string['allchangessave'] = 'Alle Änderungen wurden gespeichert.';
 $string['backtoresponses'] = '<< Zurück zu den Antworten';
+$string['allusersbooked'] = 'Alle {$a} Nutzer/innen wurden erfolgreich für diese Buchungsoption gebucht.';
+$string['notallbooked'] = 'Folgende Nutzer/innen konnten aufgrund nicht mehr verfügbarer Plätze oder durch das Überschreiten des vorgegebenen Buchungslimits pro Nutzer/in nicht gebucht werden: {$a}';
 
 // Bookingform
 $string['address'] = 'Adresse';
@@ -102,7 +128,7 @@ $string['editcategory'] = 'Bearbeiten';
 $string['deletecategory'] = 'Löschen';
 $string['deletesubcategory'] = 'Löschen Sie zuerst alle Unterkategorien dieser Kategorie!';
 $string['usedinbooking'] = 'Das Löschen dieser Kategorie/n ist nicht möglich, da sie verwendet werden!';
-$string['sucesfulldeleted'] = 'Kategorie wurde erfolgreich gelöscht!';
+$string['successfulldeleted'] = 'Kategorie wurde erfolgreich gelöscht!';
 
 // view.php
 $string['agreetobookingpolicy'] = 'Ich habe folgende Buchungsbedingungen gelesen und erkläre mich damit einverstanden';
@@ -124,7 +150,7 @@ $string['confirmdeletebookingoption'] = 'Möchten Sie diese Buchung wirklich lö
 $string['coursedate'] = 'Kurstermin';
 $string['createdby'] = 'Dieses Buchungsmodul wurde von edulabs.org entwickelt';
 $string['deletebooking'] = 'Wollen Sie wirklich folgende Buchung stornieren? <br /><br /> <b>{$a} </b>';
-$string['deletebookingoption'] = 'Diese Buchung löschen';
+$string['deletebookingoption'] = 'Diese Buchungsoption löschen';
 $string['deleteuserfrombooking'] = 'Buchung für Nutzer/innen wirklich stornieren?';
 $string['download'] = 'Download';
 $string['downloadusersforthisoptionods'] = 'Nutzer/innen im .ods-Format herunterladen';
@@ -141,23 +167,25 @@ $string['norighttobook'] = 'Sie können keine Buchung durchführen. Kontaktieren
 $string['notbooked'] = 'Noch nicht gebucht';
 $string['onwaitinglist'] = 'Sie sind auf der Warteliste';
 $string['organizatorname'] = 'Name des Organisators';
-$string['placesavailable'] = 'Plätze';
+$string['placesavailable'] = 'Verfügbare Plätze: {$a->available} von {$a->maxanswers}';
 $string['pollurl'] = 'Link zur Umfrage';
 $string['pollurlteachers'] = 'Trainer/innen Umfragelink';
 $string['select'] = 'Auswahl';
 $string['showactive'] = 'Nur buchbare Buchungsoptionen anzeigen';
 $string['showallbookings'] = 'Alle Buchungsmöglichkeiten anzeigen';
-$string['showmybookings'] = 'Nur meine Buchungen anzeigen';
 $string['starttimenotset'] = 'Kursbeginn nicht festgelegt';
 $string['subscribetocourse'] = 'Nutzer/innen in den Kurs einschreiben';
 $string['subscribeuser'] = 'Wollen Sie diese User wirklich in diesen Kurs einschreiben';
 $string['tagtemplates'] = 'Schlagwort Vorlagen';
-$string['unlimited'] = 'Unbegrenzt';
+$string['unlimited'] = 'Unbegrenzte Anzahl an Plätzen verfügbars';
 $string['updatebooking'] = 'Diese Buchung bearbeiten';
 $string['userdownload'] = 'Nutzer/innenliste herunterladen';
 $string['waitinglist'] = 'Auf der Warteliste';
-$string['waitingplacesavailable'] = 'Wartelistenplätze';
+$string['waitingplacesavailable'] = 'Verfügbare Wartelistenplätze:  {$a->overbookingavailable} von {$a->maxoverbooking}';
 $string['waitspaceavailable'] = 'Wartelistenplätze verfügbar';
+$string['duplicatebooking'] = 'Diese Buchungsoption duplizieren';
+$string['showmybookingsonly'] = 'Meine Buchungen anzeigen';
+
 
 // tag templates
 $string['cancel'] = 'Abbrechen';
@@ -167,11 +195,18 @@ $string['savenewtagtemplate'] = 'Speichern';
 $string['tagtag'] = 'Schlagwort';
 $string['tagtext'] = 'Schlagwort-Text';
 $string['wrongdataallfields'] = 'Bitte alle Felder ausfüllen!';
-$string['tagsucesfullysaved'] = 'Schlagwort erfolgreich gespeichert.';
+$string['tagsuccessfullysaved'] = 'Schlagwort erfolgreich gespeichert.';
 $string['edittag'] = 'Bearbeiten';
 
 // mod_form
+$string['signinlogoheader'] = 'Logo in der Kopfzeile auf der Unterschriftenliste';
+$string['signinlogofooter'] = 'Logo in der Fußzeile auf der Unterschriftenliste';
+$string['bookingoptiontext'] = 'Statusabhängiger Buchungsoptionstext';
+$string['beforebookedtext'] = 'Vor der Buchung';
+$string['beforecompletedtext'] = 'Nach der Buchung';
+$string['aftercompletedtext'] = 'Nach Aktivitätsabschluss';
 $string['conectedbooking'] = 'Vorgeschaltete Buchung';
+$string['errorpagination'] = 'Geben Sie ein Zahl ein, die größer als 0 ist';
 $string['notconectedbooking'] = 'Nicht vorgeschaltete Buchung';
 $string['conectedbooking_help'] = 'Buchung von der Teilnehmer/innen übernommen werden. Es kann bestimmt werden wie viele Teilnehmer/innen übernommen werden.';
 $string['cancancelbook'] = 'Nutzer/innen das Stornieren und buchen nach dem Buchungsstart erlauben?';
@@ -179,7 +214,7 @@ $string['addtocalendar'] = 'Zum Kalender hinzufügen';
 $string['limitanswers'] = 'Teilnehmeranzahl beschränken';
 $string['maxparticipantsnumber'] = 'Maximale Teilnehmeranzahl';
 $string['maxoverbooking'] = 'Maximale Anzahl der Wartelistenplätze';
-$string['defaultbookingoption'] = 'Standardeinstellungen für Buchungen';
+$string['defaultbookingoption'] = 'Standardeinstellungen für Buchungsoptionen';
 $string['sendconfirmmail'] = 'Bestätigungsmail versenden';
 $string['sendconfirmmailtobookingmanger'] = 'Eine Kopie des Bestätigungsmail an Buchungsverwalter senden';
 $string['allowdelete'] = 'Teilnehmer/innen dürfen Buchungen selbst stornieren';
@@ -195,6 +230,19 @@ $string['userleave'] = 'Nutzer/in hat Buchung storniert';
 $string['waitingtext'] = 'Wartelistenbestätigung';
 $string['statuschangetext'] = 'Statusänderungsbenachrichtigung';
 $string['deletedtext'] = 'Stornierungsbenachrichtigung';
+$string['comments'] = 'Kommentare';
+$string['nocomments'] = 'Kommentare deaktiviert';
+$string['allcomments'] = 'Jede/r kann kommentieren';
+$string['enrolledcomments'] = 'Nur Eingeschriebene können kommentieren';
+$string['completedcomments'] = 'Nur diejenigen, die Aktivität abgeschlossen haben';
+$string['ratings'] = 'Bewertung der Buchungsoption';
+$string['noratings'] = 'Bewertungen deaktiviert';
+$string['allratings'] = 'Jede/r kann bewerten';
+$string['enrolledratings'] = 'Nur Eingeschriebene können bewerten';
+$string['completedratings'] = 'Nur diejenigen, die Aktivität abgeschlossen haben';
+$string['shorturl'] = 'Verkürzter Link zu dieser Buchungsoption';
+$string['generatenewurl'] = 'Neue Kurz-URL generieren';
+$string['notes'] = 'Anmerkungen zur Buchung';
 
 $string['pollurlteachers_help'] = 'Folgende Platzhalter können im Text verwendet werden:
 <ul>
@@ -241,7 +289,6 @@ $string['pollurl_help'] = 'Folgende Platzhalter können im Text verwendet werden
 <li>{qr_id} - QR Code der Userid einfügen</li>
 <li>{qr_username} - QR Code des Usernamen einfügen</li>
 </ul>';
-
 
 $string['bookedtext_help'] = 'Lassen Sie dieses Feld leer, um den Standardtext der Website zu verwenden. Folgende Platzhalter können im Text verwendet werden:
 <ul>
@@ -441,6 +488,15 @@ $string['notificationtext_help'] = 'Lassen Sie dieses Feld leer, um den Standard
 <li>{qr_username} - Insert QR code with user username</li>
 </ul>';
 
+$string['fields'] = 'In bestimmten Bereichen anzuzeigende Informationen';
+$string['reportfields'] = 'Buchungsdatenload als csv, xls, usw.';
+$string['responsesfields'] = 'Auf der "Antworten verwalten"-Seite';
+$string['optionsfields'] = 'Auf der Seite der Buchungsoptionsübersicht';
+$string['signinsheetfields'] = 'Auf der Unterschriftenliste (PDF-Download)';
+$string['signinonesession'] = 'Ausfgewählte Session-Zeiten auf der Unterschriftenliste anzeigen';
+$string['signinaddemptyrows'] = 'Anzahl an hinzuzufügenden leeren Zeilen, für Personen die sich nicht registriert haben';
+$string['includeteachers'] = 'Trainer/innen in Unterschriftenliste anführen';
+$string['choosepdftitle'] = 'Wählen Sie einen Titel für die Unterschriftenliste';
 $string['additionalfields'] = 'Zusätzliche Felder';
 $string['addtogroup'] = 'Nutzer/innen automatisch in Gruppe einschreiben';
 $string['addtogroup_help'] = 'Nutzer/innen automatisch in Gruppe eintragen. Die Gruppe wird nach folgendem Schema automatisch erstellt: "Aktivitätsname - Name der Buchungsoption"';
@@ -477,7 +533,7 @@ $string['showinapi'] = 'In API anzeigen?';
 
 // editoptions.php
 $string['addeditbooking'] = 'Buchung bearbeiten';
-$string['addnewbookingoption'] = 'Neue Buchung hinzufügen';
+$string['addnewbookingoption'] = 'Neue Buchungsoption hinzufügen';
 $string['choosecourse'] = 'Einen Kurs auswählen';
 $string['courseendtime'] = 'Kursende';
 $string['coursestarttime'] = 'Kursbeginn';
@@ -490,6 +546,9 @@ $string['sendmailtobooker_help'] = 'Diese Option aktivieren, um Buchungsbestäti
 $string['startendtimeknown'] = 'Kursbeginn und Kursende sind bekannt';
 $string['submitandaddnew'] = 'Speichern und neue Buchung hinzufügen';
 $string['waitinglisttaken'] = 'Auf der Warteliste';
+$string['groupexists'] = 'Die Gruppe existiert bereits im Zielkurs. Bitte verwenden Sie einen anderen Namen für die Buchungsoption';
+$string['groupdeleted'] = 'Diese Buchung erstellt automatisch Gruppen im Zielkurs. Aber die Gruppe wurde im Zielkurs manuell gelöscht. Aktivieren Sie folgende Checkbox, um die Gruppe erneut zu erstellen';
+$string['recreategroup'] = 'Gruppe erneut anlegen und Nutzer/innen der Gruppe zuordnen';
 
 // importoptions.php
 $string['csvfile'] = 'CSV Datei';
@@ -529,7 +588,7 @@ vielen Dank für die Buchung von {$a->title}.
 Termin: {$a->startdate} {$a->starttime} - {$a->enddate} {$a->endtime}
 Ihr Buchungsstatus: {$a->status}
 Name:   {$a->participant}
-Um eine Übersicht über alle Buchungen zu erhalten, klicken Sie auf folgenden Link: 
+Um eine Übersicht über alle Buchungen zu erhalten, klicken Sie auf folgenden Link:
 {$a->bookinglink}
 
 ';
@@ -542,7 +601,7 @@ vielen Dank für die Buchung von {$a->title}.
 Termin: {$a->startdate} {$a->starttime} - {$a->enddate} {$a->endtime}
 Ihr Buchungsstatus: {$a->status}
 Name:   {$a->participant}
-Um eine Übersicht über alle Buchungen zu erhalten, klicken Sie auf folgenden Link: 
+Um eine Übersicht über alle Buchungen zu erhalten, klicken Sie auf folgenden Link:
 {$a->bookinglink}
 
 ';
@@ -574,7 +633,6 @@ $string['deletedbookingusermessage'] = 'Guten Tag {$a->participant},
 Die Buchung für {$a->title} wurde erfolgreich storniert
 ';
 
-
 $string['error:failedtosendconfirmation'] = 'Folgender User hat kein Bestätigungsmail erhalten
 Die Buchung wurde erfolgreich durchgeführt, das Senden des Bestätigungsmails ist aber fehlgeschlagen.
 
@@ -590,7 +648,7 @@ $string['pollurltextsubject'] = 'Nehmen Sie bitte an der Umfrage teil';
 $string['pollurltextmessage'] = 'Füllen Sie die Umfrage unter
 
 Survey url {pollurl}
-        
+
 aus.
 ';
 
@@ -606,7 +664,7 @@ $string['notificationtextmessage'] = 'Kursbeginn:
 Kurs:   {$a->title}
 Datum: {$a->startdate} {$a->starttime} - {$a->enddate} {$a->endtime}';
 
-//report.php and bookingmanagusers.class.php
+// report.php and bookingmanagusers.class.php
 $string['addteachers'] = 'Trainer/innen hinzufügen';
 $string['allmailssend'] = 'Alle Benachrichtigungen wurden erfolgreich versandt!';
 $string['associatedcourse'] = 'Dazu gehörender Kurs';
@@ -626,19 +684,38 @@ $string['nousers'] = 'Keine Nutzer/innen!';
 $string['numrec'] = "Eintragsnummer.";
 $string['onlythisbookingurl'] = 'Nur dieser Buchungslink';
 $string['optionid'] = 'Option ID';
-$string['searchDate'] = 'Datum';
-$string['searchFinished'] = 'Kurs abgeschlossen';
-$string['searchName'] = 'Vorname';
-$string['searchSurname'] = 'Nachname';
+$string['optiondates'] = 'Mehrere Termine pro Buchungsoption';
+$string['optionmenu'] = 'Diese Buchungsoption';
+$string['ratingsuccess'] = 'Die Bewrtungen wurden erfolgreich aktualisiert';
+$string['searchdate'] = 'Datum';
+$string['searchfinished'] = 'Kurs abgeschlossen';
+$string['searchname'] = 'Vorname';
+$string['searchsurname'] = 'Nachname';
 $string['selectatleastoneuser'] = 'Mindestens 1 Nutzer/in auswählen!';
+$string['selectanoption'] = 'Wählen Sie eine Buchungsoption aus!';
 $string['selectoptionid'] = 'Eine Auswahl treffen';
 $string['sendcustommessage'] = 'Persönliche Nachricht senden';
+$string['sendreminderemailsuccess'] = 'Benachrichtung wurde per E-Mail versandt';
+$string['sign_in_sheet_download'] = 'Download Anwesenheitsliste (PDF)';
+$string['status_complete'] = "Abgeschlossen";
+$string['status_incomplete'] = "Nicht abgeschlossen";
+$string['status_noshow'] = "Nicht aufgetaucht";
+$string['status_failed'] = "Nicht erfolgreich";
+$string['status_unknown'] = "Unbekannt";
+$string['status_attending'] = "Teilgenommen";
+$string['presence'] = "Anwesenheit";
 $string['toomuchusersbooked'] = 'Maximale Anzahl an Benutzern, die Sie buchen können: {$a}';
-$string['userrssucesfullenroled'] = 'Alle Nutzer/innen wurden erfolgreich eingeschrieben!';
-$string['userssucesfullybooked'] = 'Alle Nutzer/innen wurden erfolgreich in die andere Buchungsoption eingeschrieben.';
+$string['transfer'] = 'Umbuchen';
+$string['transferheading'] = 'Ausgewählte Nutzer/innen in die ausgewählte Buchungsoption umbuchen';
+$string['transfersuccess'] = 'Die Nutzer/innen wurden erfolgreich umgebucht';
+$string['transferproblem'] = 'Die folgenden Nuther/innen konnten aufgrund einer limitierten Anzahl an Plätzen der Buchungsoption oder aufgrund individueller Limitierungen seitens des/der Nutzer/in nicht umgebucht werden: {$a}';
+$string['userssuccessfullenrolled'] = 'Alle Nutzer/innen wurden erfolgreich eingeschrieben!';
+$string['userssuccessfullybooked'] = 'Alle Nutzer/innen wurden erfolgreich in die andere Buchungsoption eingeschrieben.';
 $string['waitinglistusers'] = 'Nutzer/innen auf der Warteliste';
 $string['withselected'] = 'Ausgewählte Nutzer/innen';
 $string['yes'] = 'Ja';
+$string['signature'] = 'Unterschrift';
+$string['userssucesfullygetnewpresencestatus'] = 'Anwesenheitsstatus für ausgewählte Nutzer/innen erfolgreich aktualisiert';
 
 // Send message
 $string['activitycompletionsuccess'] = 'Alle Nutzer/innen wurden für den Aktivitätsabschluss ausgewählt';
@@ -659,7 +736,7 @@ $string['pollstrftimedate'] = '%Y-%m-%d';
 
 // all_users.php
 $string['completed'] = 'Abgeschlossen';
-$string['usersOnList'] = 'Nutzer/innen';
+$string['usersonlist'] = 'Nutzer/innen';
 $string['fullname'] = 'Voller Name';
 $string['timecreated'] = 'Erstellungsdatum';
 
@@ -676,7 +753,7 @@ $string['addnewinstitution'] = 'Institution hinzufügen';
 // institutionform.class.php
 $string['institutionname'] = 'Name der Institution';
 $string['addnewinstitution'] = 'Institution hinzufügen';
-$string['sucesfulldeletedinstitution'] = 'Institution erfolgreich gelöscht';
+$string['successfulldeletedinstitution'] = 'Institution erfolgreich gelöscht';
 $string['csvfile_help'] = 'CSV Datei darf nur eine Spalte mit dem Namen der Institution beinhalten.';
 
 // otherbooking.php
@@ -691,4 +768,45 @@ $string['deletedrule'] = 'Buchungsmöglichkeit erfolgreich gelöscht';
 $string['selectoptioninotherbooking'] = "Auswahl";
 $string['otherbookinglimit'] = "Limit";
 $string['otherbookinglimit_help'] = "Anzahl der Nutzer/innen die von dieser Buchungsoption akzeptiert werden. 0 bedeutet unlimitiert.";
-$string['otherbookingsucesfullysaved'] = 'Buchungsmöglichkeit gespeichert!';
+$string['otherbookingsuccessfullysaved'] = 'Buchungsmöglichkeit gespeichert!';
+
+// optiondates.php
+$string['optiondatestime'] = 'Termine';
+$string['optiondatesmessage'] = 'Termin {$a->number}: {$a->date} <br> Von: {$a->starttime} <br> Bis: {$a->endtime}';
+$string['optiondatessuccessfullysaved'] = "Termin wurde bearbeitet";
+$string['optiondatessuccessfullydelete'] = "Termin wurde gelöscht";
+$string['leftandrightdate'] = '{$a->leftdate} bis {$a->righttdate}';
+$string['editingoptiondate'] = 'Sie bearbeiten gerade diesen Termin';
+
+// File: settings.php
+$string['customfield'] = 'Benutzerdefiniertes Feld, dessen Wert in den Buchungsoptionseinstellungen angegeben wird und in der Buchungsoptionsübersicht angezeigt wird';
+$string['customfielddesc'] = 'Definieren Sie den Wert dieses Feldes in den Buchungsoptionseinstellungen.';
+$string['customfieldconfigure'] = 'Benutzerdefinierte Buchungsoptionsfelder';
+$string['customfielddef'] = 'Benutzerdefiniertes Buchungsoptionsfeld';
+$string['customfieldtype'] = 'Feldtyp';
+$string['textfield'] = 'Eingabezeile';
+$string['delcustfield'] = 'Dieses Feld und alle dazugehörenden Einstellungen in den Buchungsoptionen löschen';
+$string['signinlogo'] = 'Logo für die Unterschriftenliste';
+$string['cfgsignin'] = 'Einstellungen für die Unterschriftenliste';
+$string['cfgsignin_desc'] = 'Konfiguration der Unterschriftenliste';
+$string['pdfportrait'] = 'Hochformat';
+$string['pdflandscape'] = 'Querformat';
+$string['signincustfields'] = 'Anzuzeigende Profilfelder';
+$string['signincustfields_desc'] = 'Wählen Sie die Profilfelder, die auf der Unterschriftenliste abgedruckt werden sollen';
+$string['showcustomfields'] = 'Anzuzeigende benutzerdefnierte Buchungsoptionsfelder';
+$string['showcustomfields_desc'] = 'Wählen Sie die benutzerdefinierte Buchungsoptionfelder, die auf der Unterschriftenliste abgedruckt werden sollen';
+$string['signinextracols_heading'] = 'Zusätzliche Spalten auf der Unterschriftenliste';
+$string['signinextracols'] = 'Extra Spalte auf der Unterschriftenliste';
+$string['signinextracols_desc'] = 'Sie können bis zu 3 extra Spalten auf der Unterschriftenliste abbilden. Geben Sie den Titel der Spalte ein, oder lassen Sie das Feld leer, um keine extra Spalte anzuzeigen';
+$string['numberrows'] = 'Zeilen nummerieren';
+$string['numberrowsdesc'] = 'Nummerierung der Zeilen in der Unterschriftenliste aktivieren. Die Nummer wird links des Namens dargestellt';
+$string['multiicalfiles'] = 'Pro Event/Termin eine ical-Datei anhängen um Kompatibilität mit MS Outlook 2010 zu gewährleisten.';
+$string['multiicalfilesdesc'] = 'MS Outlook unterstützt keine Mehrfach-Termine in einer-Datei. Um mehrere Termine auch in Outlook importieren zu können, muss pro Termin eine Datei angehängt werden. Es werden dann in einem Mail mehrere ical-Dateien angehängt.';
+
+// locallib.php
+$string['pdfdate'] = 'Buchungsdaten: ';
+$string['pdflocation'] = 'Ort: ';
+$string['pdfroom'] = 'Raum: ';
+$string['pdfstudentname'] = "Name Student/in";
+$string['pdfsignature'] = "Unterschrift";
+$string['pdftodaydate'] = 'Datum: ';

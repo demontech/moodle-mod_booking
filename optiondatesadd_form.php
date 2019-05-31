@@ -1,45 +1,94 @@
 <?php
+// This file is part of Moodle - http://moodle.org/
+//
+// Moodle is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-if (!defined('MOODLE_INTERNAL')) {
-    die('Direct access to this script is forbidden.');    ///  It must be included from a Moodle page
-}
+defined('MOODLE_INTERNAL') || die();
 
 require_once("$CFG->libdir/formslib.php");
 
+/**
+ * Add option date form
+ * @author David Bogner
+ *
+ */
 class optiondatesadd_form extends moodleform {
 
-    //Add elements to form
+    /**
+     *
+     * {@inheritdoc}
+     * @see moodleform::definition()
+     */
     public function definition() {
-        global $CFG;
-        
-        $mform = $this->_form; // Don't forget the underscore! 
+        $mform = $this->_form;
 
-        $mform->addElement('date_time_selector', 'coursestarttime', get_string("coursestarttime", "booking"));
+        $mform->addElement('date_time_selector', 'coursestarttime', get_string('from'));
         $mform->setType('coursestarttime', PARAM_INT);
 
-        $mform->addElement('date_time_selector', 'courseendtime', get_string("courseendtime", "booking"));
-        $mform->setType('courseendtime', PARAM_INT);      
+        for ($i = 0; $i <= 23; $i++) {
+            $hours[$i] = sprintf("%02d", $i);
+        }
+        for ($i = 0; $i < 60; $i += 5) {
+            $minutes[$i] = sprintf("%02d", $i);
+        }
 
-        $mform->addElement('hidden', 'id');
-        $mform->setType('id', PARAM_RAW);
-        
+        $courseendtime = array();
+        $courseendtime[] = & $mform->createElement('select', 'endhour', get_string('hour', 'form'),
+                $hours);
+        $courseendtime[] = & $mform->createElement('select', 'endminute',
+                get_string('minute', 'form'), $minutes);
+        $mform->setType('endhour', PARAM_INT);
+        $mform->setType('endminute', PARAM_INT);
+        $mform->addGroup($courseendtime, 'endtime', get_string('to'), ' ', false);
+
+        $mform->addElement('hidden', 'optiondateid');
+        $mform->setType('optiondateid', PARAM_INT);
+
         $mform->addElement('hidden', 'bookingid');
-        $mform->setType('bookingid', PARAM_RAW);
-        
-        $mform->addElement('hidden', 'optionid');
-        $mform->setType('optionid', PARAM_RAW);
-        
-        $this->add_action_buttons(TRUE, get_string('savenewoptiondates', 'booking'));
+        $mform->setType('bookingid', PARAM_INT);
+
+        if ($this->_customdata['optiondateid'] == '') {
+            $mform->addElement('submit', 'submitbutton', get_string('add'));
+        } else {
+            $mform->addElement('submit', 'submitbutton', get_string('savechanges'));
+        }
     }
 
-    //Custom validation should be added here
-    function validation($data, $files) {
-        return array();
+    /**
+     * Validate start and end time
+     *
+     * {@inheritdoc}
+     * @see moodleform::validation()
+     */
+    public function validation($data, $files) {
+        $errors = array();
+        $starttime = $data['coursestarttime'];
+        $date = date("Y-m-d", $data['coursestarttime']);
+        $endtime = strtotime($date . " {$data['endhour']}:{$data['endminute']}");
+        if ($endtime < $starttime) {
+            $errors['endtime'] = "Course end time must be after course start time";
+        }
+        return $errors;
     }
-    
+
+    /**
+     *
+     * {@inheritDoc}
+     * @see moodleform::get_data()
+     */
     public function get_data() {
         $data = parent::get_data();
-
         return $data;
     }
 }
